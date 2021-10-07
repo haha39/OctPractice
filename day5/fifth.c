@@ -28,7 +28,7 @@ int main()
 	char b[maxType];
 	char s;
 	int o;
-	/*while(1)
+	while(1)
 	{
 		printf("please enter your first polynomial and don't 手殘 : \n");
 		gets(a);
@@ -40,7 +40,7 @@ int main()
 		else
 			break;
 	}
-	while(1)
+/*	while(1)
 	{
 		printf("please enter your second polynomial and don't 手殘 : \n");
 		gets(b);
@@ -76,8 +76,19 @@ polynomial* inputPolynomial(char *p)						//傳入input，做一些處理,也就是多項式A,
 {
 	return p;
 }
-polynomial* isValid(char *p)										//是否有效的多項式，ENTER是0 
+polynomial* isValid(char *p)								//是否有效的多項式，ENTER是0 
 {
+	printf("%s\n",p);
+	printf("%c\n",p[0]);
+	/*1x^5+30X ^   4- 50x ^1+ 1
+	* 
+	* if(p[i]==數字) while 看他下一個484x^  或是+- 略過空格 若沒有 看自己484尾巴 若不是回傳-1 
+	*
+	*/
+	 
+	
+	
+	
 	
 	return 8787;
 }
@@ -112,7 +123,11 @@ char* polynomialToString(polynomial *p)					//得到結果之後，轉成字串，才能印出來
 	return c;
 }
 
+/*
 
 
+
+
+*/
 
 
