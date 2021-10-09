@@ -1,8 +1,9 @@
 //If We Were Vampires 
 #include <stdio.h>
 #include <stdlib.h>
-//using namespace std;
-#define maxDegree 10
+#include <string.h>
+
+#define maxDegree 100
 #define maxType 100
 
 typedef struct Polynomial
@@ -12,7 +13,7 @@ typedef struct Polynomial
 }polynomial;
 /**/
 polynomial* inputPolynomial(char*);
-polynomial* isValid(char*);
+int isValid(char*);
 int getOperationType(char*);
 int inputOperationSymbol(char*);
 polynomial* operation(int, polynomial*, polynomial*);
@@ -21,11 +22,12 @@ polynomial* subtraction(polynomial*, polynomial*);
 polynomial* multiplication(polynomial*, polynomial*);
 char* polynomialToString(polynomial*);
 
-
 int main()
 {
-	char a[maxType];
-	char b[maxType];
+	char *a;
+    a = (char*)malloc( maxType * sizeof(char) );
+ 	char *b;
+    b = (char*)malloc( maxType * sizeof(char) );   
 	char s;
 	int o;
 	while(1)
@@ -35,11 +37,12 @@ int main()
 		
 		if( isValid(a) == -1)
 		{
-			printf("wtf ! ¦A¤â´Ý´N¨ï±¼³á : \n");
+			printf("wtf ! ¦A¤â´Ý´N¨ï±¼³á \n");
 		}
 		else
 			break;
 	}
+	printf("a is a polynomial haha\n");
 /*	while(1)
 	{
 		printf("please enter your second polynomial and don't ¤â´Ý : \n");
@@ -72,31 +75,114 @@ int main()
 }
 
 /**/
-polynomial* inputPolynomial(char *p)						//¶Ç¤Jinput¡A°µ¤@¨Ç³B²z,¤]´N¬O¦h¶µ¦¡A,B¡C¦^¶Ç¦h¶µ¦¡ 
+polynomial* inputPolynomial(char *p)	//¶Ç¤Jinput¡A°µ¤@¨Ç³B²z,¤]´N¬O¦h¶µ¦¡A,B¡C¦^¶Ç¦h¶µ¦¡ 
 {
-	return p;
+	polynomial *x;
+	
+	
+	return x;
 }
-polynomial* isValid(char *p)								//¬O§_¦³®Äªº¦h¶µ¦¡¡AENTER¬O0 
+int isValid(char *p)	//¬O§_¦³®Äªº¦h¶µ¦¡¡AENTER¬O0 
 {
-	printf("%s\n",p);
-	printf("%c\n",p[0]);
-	/*1x^5+30X ^   4- 50x ^1+ 1
-	* 
-	* if(p[i]==¼Æ¦r) while ¬Ý¥L¤U¤@­Ó484x^  ©Î¬O+- ²¤¹LªÅ®æ ­Y¨S¦³ ¬Ý¦Û¤v484§À¤Ú ­Y¤£¬O¦^¶Ç-1 
-	*
+	/*vincent
+	*1x^5+30X ^   4- 50x ^1+ 1
+	* if(p[i]==¼Æ¦r) while ¬Ý¥L¤U¤@­Ó484x^  ©Î¬O+- ²¤¹LªÅ®æ ­Y¨S¦³ ¬Ý¦Û¤v484§À¤Ú 
+	*­Y¤£¬O¦^¶Ç-1 ¬O´N©I¥s inputPolynomial
 	*/
-	 
+	int i,check=0,len=strlen(p);	//check : if next symbols after num is x^ check = 1¡Aelse if is +- check = 2, it should take turns
 	
-	
-	
-	
+	//printf("in isValid(), the input string is : %s\n",p);
+	if( (p[0]<49 || p[0]>57) && (p[len-1]<49 || p[len-1]>57))	//ensure that first word is a number and the last word is, too(either power or constant)
+	{
+		return -1;
+	}
+	else
+	{
+		//printf("²Ä¤@­Ó¬O¼Æ¦r¡A­È¬° : %c		³Ì«á¤@­Ó¬O¼Æ¦r¡A­È¬° : %c\n",p[0],p[len-1]);
+		for(i=0;i<(len-1);i++)	//?????????????????????????????????
+		{
+			//printf("²Ä%d­Ó¦r¤¸¡A­È¬° : %c\n",i,p[i]);
+			if(p[i]>48 && p[i]<58)	//¹J¨ì¼Æ¦r 
+			{
+				//printf("¹J¨ì¼Æ¦r¡A­È¬° : %c\n",p[i]);
+				if(check==1)	//the next symbols should be +-
+				{
+					//printf("the next symbols should be +-  \n");
+					while(1)	//§ä+- 
+					{
+						i++;
+						if(p[i]==32)	//meet space don't bird it
+							continue;
+						else if(p[i]>47 && p[i]<58)		//meet number don't bird it
+							continue;
+						else if(p[i]==43 || p[i]==45)	//good job! meet + or - 
+						{
+							//printf("good job! ¼Æ¦r¤§«á¬O¥¿­t¸¹\n"); 
+							check = 2;
+							//i--;
+							break;
+						} 
+						else if(p[i]==0) //meet '\0' cool!
+							return 8787;
+						else
+							return -1;
+					}
+				}
+				else	//the next symbols should be x^
+				{
+					//printf("the next symbols should be x^  \n");
+					while(1)	//§äx or X  or '\0'
+					{
+						i++;
+						//printf("p[%d] = %c\n",i,p[i]);
+						if(p[i]==32)	//meet space don't bird it
+							continue;
+						else if(p[i]>47 && p[i]<58)		//meet number don't bird it
+							continue;
+						else if(p[i]==88 || p[i]==120)	//oh ya! meet x or X 
+						{
+							//printf("oh ya! ¼Æ¦r¤§«á¬Ox\n"); 
+							//check = 1;
+							//i--;
+							break;
+						}
+						else if(p[i]==0) //meet '\0' cool!
+							return 8787;
+						else
+							return -1;
+					}
+					while(1)	//§ä^ 
+					{
+						i++;
+						//printf("p[%d] = %c\n",i,p[i]);
+						if(p[i]==32)	//meet space don't bird it
+							continue;
+						else if(p[i]==94)	//oh ya! meet ^ 
+						{
+							//printf("oh ya! x¤§«á¬O^\n"); 
+							check = 1;
+							//i--;
+							break;
+						} 
+						else
+							return -1;
+					}					
+				}
+			}
+			else
+			{
+				return -1;
+			}
+		}	
+	}
+	/**/
 	return 8787;
 }
-int getOperationType(char *s)								//¦^¶Ç¥[ªk¡A´îªk¡A­¼ªk
+int getOperationType(char *s)	//¦^¶Ç¥[ªk¡A´îªk¡A­¼ªk
 {
 	return 8787;
 }
-int inputOperationSymbol(char *s)							//¿é¤J¤TºØºâªk¤§¤@¡AÁÙ¬O­n¨¾§b ,getOperationType
+int inputOperationSymbol(char *s)	//¿é¤J¤TºØºâªk¤§¤@¡AÁÙ¬O­n¨¾§b ,getOperationType
 {
 	return 8787;
 }
@@ -104,19 +190,19 @@ polynomial* operation(int s, polynomial *a, polynomial *b)	//¶Ç¤J­þ­Óºâªk¡A¦h¶µ¦
 {
 	return a;
 }
-polynomial* addition(polynomial *a, polynomial *b)			//¥[ªk 
+polynomial* addition(polynomial *a, polynomial *b)	//¥[ªk 
 {
 	return a;
 }
-polynomial* subtraction(polynomial *a, polynomial *b)			//´îªk 
+polynomial* subtraction(polynomial *a, polynomial *b)	//´îªk 
 {
 	return a;
 }
-polynomial* multiplication(polynomial *a, polynomial *b)			//­¼ªk 
+polynomial* multiplication(polynomial *a, polynomial *b)	//­¼ªk 
 {
 	return a;
 }
-char* polynomialToString(polynomial *p)					//±o¨ìµ²ªG¤§«á¡AÂà¦¨¦r¦ê¡A¤~¯à¦L¥X¨Ó 
+char* polynomialToString(polynomial *p)	//±o¨ìµ²ªG¤§«á¡AÂà¦¨¦r¦ê¡A¤~¯à¦L¥X¨Ó 
 {
 	char *c;
 	
