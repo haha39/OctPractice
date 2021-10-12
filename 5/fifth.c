@@ -3,7 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+開頭負係數改一下哈哈
+ 
 #define maxDegree 100
 #define maxType 100
 
@@ -56,7 +57,7 @@ int main()
 		}
 		else
 			break;
-	}
+	}*/
 	while(1)
 	{
 		printf("please enter symbol and don't 手殘 : \n");
@@ -68,7 +69,7 @@ int main()
 		}
 		else
 			break;
-	}	*/
+	}	
 	
 	//polynomialToString( operation( o, inputPolynomial(a), inputPolynomial(b) ) );
 	
@@ -189,7 +190,7 @@ int isValid(char *s)	//是否有效的多項式，ENTER是0
 }
 int getOperationType(char *s)	//回傳加法，減法，乘法
 {
-	int i,symNum=-1;
+	int i,symNum=-1;	//好設計，若全是空格和tab就會是一直-1 
 	
 	for(i=0;i<strlen(s);i++)
 	{
@@ -209,17 +210,17 @@ int getOperationType(char *s)	//回傳加法，減法，乘法
 }
 int inputOperationSymbol(char *s)	//輸入三種算法之一，還是要防呆 ,getOperationType
 {
-	int i,funnyCt=0,symNum;
+	int i,funnyCt=0;
 	
 	for(i=0;i<strlen(s);i++)
+	{ 
 		if(!(isspace(s[i]) && s[i]!='\t'))
 			funnyCt++;
-	if(funnyCt==1)
-		symNum = getOperationType(s);
-	else
-		symNum = -1;
+		if(funnyCt>1)
+			return -1;
+	}
 	
-	return symNum;
+	return getOperationType(s);
 }
 polynomial* operation(int s, polynomial *a, polynomial *b)	//傳入哪個算法，多項式A,B。回傳答案 
 {
